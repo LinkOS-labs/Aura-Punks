@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AURA-PUNKS Gallery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page-wrapper">
+
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo-dot"></div>
+      <div>
+        <div class="nav-title">AURA-PUNKS</div>
+        <div class="nav-sub">Gallery</div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="mint.html">Mint</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="about.html">Lore & Roadmap</a>
+      <a class="nav-cta" href="mint.html">Mint Now</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section">
+      <h2 class="section-title">AURA-PUNKS Gallery</h2>
+      <p class="section-sub">
+        A small preview grid from the 20,000-piece collection. Images and metadata are loaded
+        directly from IPFS.
+      </p>
+    </section>
+
+    <section class="section">
+      <div id="galleryStatus" class="status" style="text-align:center;margin-bottom:14px;">
+        Loading preview…
+      </div>
+      <div id="galleryGrid" class="gallery-grid"></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    IPFS-hosted art · Only a subset is shown here for speed. Explore everything through marketplaces or metadata.
+  </footer>
+
+</div>
+
+<script>
+// IPFS gateways for AURA-PUNKS
+const IMAGE_BASE = "https://bafybeic5iu5nmodw5izozh5eahptlegzlylutnvgru6ivinsgaoeq267w4.ipfs.w3s.link/";
+const METADATA_BASE = "https://bafybeifboihjjh6ljwt4fq2c3ws2asa4xdmoxdvcrjg7zlequs7e6evdei.ipfs.w3s.link/";
+
+const MAX_ITEMS = 60; // how many to show
+const START_ID = 1;   // ids start at 1
+
+async function loadGallery() {
+  const grid = document.getElementById("galleryGrid");
+  const status = document.getElementById("galleryStatus");
+  status.textContent = "Loading " + MAX_ITEMS + " items from IPFS…";
+
+  for (let i = START_ID; i < START_ID + MAX_ITEMS; i++) {
+    const card = document.createElement("div");
+    card.className = "gallery-card";
+
+    const img = document.createElement("img");
+    img.src = IMAGE_BASE + "punk_" + i + ".webp";
+    img.alt = "AURA-PUNK #" + i;
+
+    const idLine = document.createElement("div");
+    idLine.className = "gallery-id";
+    idLine.textContent = "AURA-PUNK #" + i;
+
+    const metaLine = document.createElement("div");
+    metaLine.className = "gallery-meta";
+    metaLine.textContent = "Click to open metadata";
+
+    card.appendChild(img);
+    card.appendChild(idLine);
+    card.appendChild(metaLine);
+
+    card.onclick = () => {
+      window.open(METADATA_BASE + "punk_" + i + ".json", "_blank");
+    };
+
+    grid.appendChild(card);
+  }
+
+  status.textContent = "Preview loaded: " + MAX_ITEMS + " items.";
+}
+
+loadGallery();
+</script>
+
+</body>
+</html>
